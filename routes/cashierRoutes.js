@@ -40,7 +40,30 @@ const cashierApi = (app) => {
     '/',
     validationHandler(createCashierSchema),
     async function (req, res, next) {
-      const { body: data } = req;
+      // hora y fecha del SERVIDOR
+
+      let date = new Date();
+
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      let hour = date.getHours();
+      let min = date.getMinutes();
+      let seg = date.getSeconds();
+      let dateServer = '';
+      let timeServer = `${hour}:${min}:${seg}`;
+      if (month < 10) {
+        dateServer = `${day}-0${month}-${year}`;
+      } else {
+        dateServer = `${day}-${month}-${year}`;
+      }
+
+      const body = req.body;
+      const data = {
+        caja: body.caja,
+        fecha: body.fecha ? body.fecha : dateServer,
+        hora: body.hora ? body.hora : timeServer,
+      };
       try {
         const createCashierId = await cashierService.createData({ data });
         res.status(201).json({
@@ -57,9 +80,9 @@ const cashierApi = (app) => {
     '/:cashierId',
     validationHandler({ cashierId: cashierIdSchema }, 'params'),
     async function (req, res, next) {
-      const { cashierId } = req.params;
+      const cashierId = req.params.cashierId;
       try {
-        const deletedCashierId = await cashierService.deleteData({ cashierId });
+        const deletedCashierId = await cashierService.deleteData(cashierId);
 
         res
           .status(200)
@@ -70,3 +93,5 @@ const cashierApi = (app) => {
     }
   );
 };
+
+module.exports = cashierApi;
