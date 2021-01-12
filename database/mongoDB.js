@@ -48,6 +48,17 @@ class MongoDB {
       });
   }
 
+  //obtener un numero de datos
+  getMany(collection, query, number) {
+    return this.connect()
+      .then((db) => {
+        return db.collection(collection).find(query).limit(number).toArray();
+      })
+      .catch((err) => {
+        console.log(new Error(`Algo salgio mal en getAll ${err}`));
+      });
+  }
+
   //para crear un nuevo dato
   create(collection, data) {
     return this.connect()
