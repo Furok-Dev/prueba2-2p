@@ -23,7 +23,7 @@ class CashierService {
     return newCashierId;
   }
 
-  async deleteData({ dataId }) {
+  async deleteData(dataId) {
     const deletedDataId = await this.mongoDB.delete(this.collection, dataId);
     return deletedDataId;
   }
