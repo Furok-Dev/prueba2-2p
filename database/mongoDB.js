@@ -48,14 +48,14 @@ class MongoDB {
       });
   }
 
-  //obtener un numero de datos
-  getMany(collection, query, number) {
+  //obtener por fechas
+  getReportData(collection, query) {
     return this.connect()
       .then((db) => {
-        return db.collection(collection).find(query).limit(number).toArray();
+        return db.collection(collection).find(query).toArray();
       })
       .catch((err) => {
-        console.log(new Error(`Algo salgio mal en getAll ${err}`));
+        console.error(new Error(`algo salio mal en getReportData ${err}`));
       });
   }
 

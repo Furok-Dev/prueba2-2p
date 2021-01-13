@@ -27,6 +27,11 @@ class CashierService {
     const deletedDataId = await this.mongoDB.delete(this.collection, dataId);
     return deletedDataId;
   }
+
+  async getSpecificData(query) {
+    const reportData = await this.mongoDB.getReportData(this.collection, query);
+    return reportData;
+  }
 }
 
 module.exports = CashierService;

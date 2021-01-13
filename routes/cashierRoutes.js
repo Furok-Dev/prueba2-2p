@@ -36,6 +36,7 @@ const cashierApi = (app) => {
     }
   );
 
+  //crear un nuevo dato
   router.post(
     '/',
     validationHandler(createCashierSchema),
@@ -75,6 +76,30 @@ const cashierApi = (app) => {
       }
     }
   );
+
+  //obtener datos por fechas
+  router.post('/report', async function (req, res) {
+    const desde = req.body.desde;
+    const hasta = req.body.hasta;
+    const query = {
+      fecha: {
+        $gte: desde,
+        $lt: hasta,
+      },
+    };
+    try {
+      const reportData = await cashierService.getSpecificData(query);
+
+      res.status(201).json({
+        data: reportData,
+        message: `Datos desde la fecha ${desde} hasta ${hasta}`,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: 'Error al obtener por fecha',
+      });
+    }
+  });
 
   router.delete(
     '/:cashierId',
