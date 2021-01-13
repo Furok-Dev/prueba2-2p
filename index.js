@@ -12,7 +12,9 @@ app.use(express.json());
 cashierApi(app);
 
 app.get('/', (req, res) => {
-  res.json('Por favor ve a : /cashier ');
+  res.json(
+    'Por favor ve a : /cashier , para los resportes ve a /cashier/report'
+  );
 });
 
 app.listen(config.port, (err) => {
